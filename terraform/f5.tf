@@ -9,8 +9,8 @@ data "aws_ami" "f5_ami" {
 }
 
 resource "aws_network_interface" "mgmt" {
-  subnet_id         = module.vpc.public_subnets[0]
-  private_ips       = ["10.0.1.10"]
+  subnet_id       = module.vpc.public_subnets[0]
+  private_ips     = ["10.0.1.10"]
   security_groups = [aws_security_group.mgmt.id]
 }
 
@@ -21,8 +21,8 @@ resource "aws_network_interface" "public" {
 }
 
 resource "aws_network_interface" "private" {
-  subnet_id       = module.vpc.private_subnets[0]
-  private_ips     = ["10.0.3.10"]
+  subnet_id   = module.vpc.private_subnets[0]
+  private_ips = ["10.0.3.10"]
 }
 
 resource "aws_eip" "mgmt" {
@@ -47,25 +47,25 @@ data "template_file" "f5_init" {
   template = file("../scripts/f5_onboard.tmpl")
 
   vars = {
-    password              = random_string.password.result
-    doVersion             = "latest"
+    password  = random_string.password.result
+    doVersion = "latest"
     #example version:
     #as3Version           = "3.16.0"
-    as3Version            = "latest"
-    tsVersion             = "latest"
-    cfVersion             = "latest"
-    fastVersion           = "latest"
-    onboard_log           = "/var/log/onboard.log"
+    as3Version  = "latest"
+    tsVersion   = "latest"
+    cfVersion   = "latest"
+    fastVersion = "latest"
+    onboard_log = "/var/log/onboard.log"
   }
 }
 
 resource "aws_instance" "f5" {
 
-  ami                         = data.aws_ami.f5_ami.id
-  user_data                   = data.template_file.f5_init.rendered
+  ami       = data.aws_ami.f5_ami.id
+  user_data = data.template_file.f5_init.rendered
 
-  instance_type               = "t2.medium"
-  key_name                    = aws_key_pair.demo.key_name
+  instance_type = "t2.medium"
+  key_name      = aws_key_pair.demo.key_name
   root_block_device { delete_on_termination = true }
 
   network_interface {

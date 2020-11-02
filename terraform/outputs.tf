@@ -7,7 +7,7 @@ output "f5_username" {
 }
 
 output "f5_password" {
-  value = "${random_string.password.result}"
+  value = random_string.password.result
 }
 
 output "f5_ui" {

@@ -15,9 +15,9 @@ module "vpc" {
   private_subnets = ["10.0.3.0/24"]
 
   tags = {
-    Terraform = "true"
+    Terraform   = "true"
     Environment = "dev"
-    UK-SE = "arch"
+    UK-SE       = "arch"
   }
 }
 
