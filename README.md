@@ -16,7 +16,7 @@ This deployment will build the following components:
 - Hashicorp Consul for service discovery
 - A single BIG-IP with 3 NICs
     - BIG-IP is configured via a user-data script injected on first booot, that performs the following tasks:
-        - downloads and installs bigip_runtime_init packageand 
+        - downloads and installs bigip_runtime_init package
         - provides bigip_runtime_init with its yaml configuration file
         - bigip_runtime_init installs DO, AS3 packages (plus other Automation Toolchain components)
         - bigip_runtime_init declares the DO and AS3 json configurations
