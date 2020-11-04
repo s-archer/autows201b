@@ -36,10 +36,8 @@ optionally, you can deploy the FAST declaration:
 -   terraform plan
 -   terraform apply
 
-
 To destroy:
 -   cd ../fast 
 -   terraform destroy
-
 -   cd ../terraform 
 -   terraform destroy
