@@ -8,8 +8,8 @@ resource "aws_security_group" "mgmt" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    #cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
+    #cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
@@ -17,8 +17,8 @@ resource "aws_security_group" "mgmt" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    #cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
+    #cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -29,13 +29,12 @@ resource "aws_security_group" "mgmt" {
   }
 
   tags = {
-    Name  = "mgmt",
-    UK-SE = "arch"
+    Name = "mgmt"
   }
 }
 
 resource "aws_security_group" "public" {
-  name        = "public"
+  name        = "external"
   description = "Allow HTTP and HTTPS inbound traffic"
   vpc_id      = module.vpc.vpc_id
 
@@ -62,54 +61,10 @@ resource "aws_security_group" "public" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    Name  = "public",
-    UK-SE = "arch"
+    Name = "external"
   }
 }
 
-resource "aws_security_group" "consul" {
-  name   = "consul"
-  vpc_id = module.vpc.vpc_id
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 8500
-    to_port     = 8500
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 8300
-    to_port     = 8300
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"]
-  }
-
-  ingress {
-    from_port   = 8301
-    to_port     = 8301
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  tags = {
-    Name  = "consul",
-    UK-SE = "arch"
-  }
-}
 
 resource "aws_security_group" "nginx" {
   name   = "nginx"
@@ -133,7 +88,8 @@ resource "aws_security_group" "nginx" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
+    #cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
@@ -163,8 +119,45 @@ resource "aws_security_group" "nginx" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
   tags = {
-    Name  = "nginx",
-    UK-SE = "arch"
+    Name = "nginx"
+  }
+
+}
+
+resource "aws_security_group" "consul" {
+  name   = "consul"
+  vpc_id = module.vpc.vpc_id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8500
+    to_port     = 8500
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 8300
+    to_port     = 8301
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags = {
+    Name = "consul"
   }
 }

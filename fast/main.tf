@@ -16,7 +16,7 @@ resource "null_resource" "fast_app" {
 # For testing, write out to file
 
 resource "local_file" "rendered_fast_template" {
-  content              = templatefile("../templates/fast.tmpl", {
+  content              = templatefile("../templates/fast.tpl", {
 
     tenant_name      = "terraformFAST"
     application_name = "App01"
