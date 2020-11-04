@@ -11,16 +11,16 @@ Before you use this repository, please follow the pre-requisites:
 
 This deployment will build the following components:
 
--   AWS infrastructure using the VPC module and other aws_ resources
--   An NGINX autoscale group, to provide a simple web app
--   Hashicorp Consul for service discovery
--   A single BIG-IP with 3 NICs
---  BIG-IP is configured via a user-data script injected on first booot, that performs the following tasks:
---- downloads and installs bigip_runtime_init packageand 
---- provides bigip_runtime_init with its yaml configuration file
---- bigip_runtime_init installs DO, AS3 packages (plus other Automation Toolchain components)
---- bigip_runtime_init declares the DO and AS3 json configurations
---  BIG-IP is reported ready when the NGINX application is available via the Virtual Server.
+- AWS infrastructure using the VPC module and other aws_ resources
+- An NGINX autoscale group, to provide a simple web app
+- Hashicorp Consul for service discovery
+- A single BIG-IP with 3 NICs
+    - BIG-IP is configured via a user-data script injected on first booot, that performs the following tasks:
+        - downloads and installs bigip_runtime_init packageand 
+        - provides bigip_runtime_init with its yaml configuration file
+        - bigip_runtime_init installs DO, AS3 packages (plus other Automation Toolchain components)
+        - bigip_runtime_init declares the DO and AS3 json configurations
+    - BIG-IP is reported ready when the NGINX application is available via the Virtual Server.
 
 <img src="./images/deploy_diagram.png">
 
