@@ -88,12 +88,12 @@ data "template_file" "as3" {
 
 resource "local_file" "test_user_debug" {
   content = templatefile("../templates/user_data_json.tpl", {
-    hostname    = "mybigip.f5.com",
-    admin_pass  = random_string.password.result,
-    external_ip = "${aws_eip.public-self.private_ip}/24",
-    internal_ip = "${aws_network_interface.private.private_ip}/24",
-    internal_gw = cidrhost(module.vpc.private_subnets_cidr_blocks[0], 1),
-    vs1_ip      = aws_eip.public-vs1.private_ip,
+    hostname        = "mybigip.f5.com",
+    admin_pass      = random_string.password.result,
+    external_ip     = "${aws_eip.public-self.private_ip}/24",
+    internal_ip     = "${aws_network_interface.private.private_ip}/24",
+    internal_gw     = cidrhost(module.vpc.private_subnets_cidr_blocks[0], 1),
+    vs1_ip          = aws_eip.public-vs1.private_ip,
     consul_uri      = "http://${aws_instance.consul.private_ip}:8500/v1/catalog/service/nginx",
     do_declaration  = data.template_file.do.rendered,
     as3_declaration = data.template_file.as3.rendered
@@ -105,12 +105,12 @@ data "template_file" "f5_init" {
   template = file("../templates/user_data_json.tpl")
 
   vars = {
-    hostname    = "mybigip.f5.com",
-    admin_pass  = random_string.password.result,
-    external_ip = "${aws_eip.public-self.private_ip}/24",
-    internal_ip = "${aws_network_interface.private.private_ip}/24",
-    internal_gw = cidrhost(module.vpc.private_subnets_cidr_blocks[0], 1),
-    vs1_ip      = aws_eip.public-vs1.private_ip,
+    hostname        = "mybigip.f5.com",
+    admin_pass      = random_string.password.result,
+    external_ip     = "${aws_eip.public-self.private_ip}/24",
+    internal_ip     = "${aws_network_interface.private.private_ip}/24",
+    internal_gw     = cidrhost(module.vpc.private_subnets_cidr_blocks[0], 1),
+    vs1_ip          = aws_eip.public-vs1.private_ip,
     consul_uri      = "http://${aws_instance.consul.private_ip}:8500/v1/catalog/service/nginx",
     do_declaration  = data.template_file.do.rendered,
     as3_declaration = data.template_file.as3.rendered
