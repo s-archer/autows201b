@@ -7,7 +7,10 @@ variable "as3vip" { default = "10.0.2.102" }
 variable "app_definition" {
     description = "list of applications to be deployed onto shared VIP"
     default     = [
-        # Add blocks for each application
+        # Add blocks for each additional application. 
+        # Note that certs/keys are examples for demo only and do not protect anything of value.
+        # Note that cert/key values have newlines escaped with an additional backslash, to prevent 
+        #  the terraform templatefile function breaking up the single-line format.
         [
             "app1",
             "app1.namespace.internal",
