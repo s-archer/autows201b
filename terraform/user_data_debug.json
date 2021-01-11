@@ -12,7 +12,7 @@ cat << 'EOF' > /config/cloud/runtime-init-conf.yaml
         {
             "name": "ADMIN_PASS",
             "type": "static",
-            "value": "csRXPlaq4Y"
+            "value": "9gi0Y5HvBl"
         },
         {
             "name": "EXTERNAL_IP",
