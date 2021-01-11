@@ -41,3 +41,15 @@ To destroy:
 -   terraform destroy
 -   cd ../terraform 
 -   terraform destroy
+
+...or you can deploy the Terraform templatefile example, which creates AS3 from variables:
+-   cd ../tf_templated_as3
+-   terraform init
+-   terraform plan
+-   terraform apply
+
+To destroy:
+-   cd ../tf_templated_as3
+-   terraform destroy
+-   cd ../terraform 
+-   terraform destroy
