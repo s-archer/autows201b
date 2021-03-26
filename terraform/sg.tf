@@ -1,3 +1,4 @@
+
 resource "aws_security_group" "mgmt" {
   name        = "mgmt"
   description = "Allow SSH and TLS inbound traffic"
@@ -9,6 +10,7 @@ resource "aws_security_group" "mgmt" {
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
+    # cidr_blocks = data.http.myip.body = 90.255.235.127%   
     #cidr_blocks = ["0.0.0.0/0"]
   }
 
