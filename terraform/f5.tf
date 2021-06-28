@@ -49,7 +49,15 @@ resource "aws_instance" "f5" {
   ami           = data.aws_ami.f5_ami.id
   instance_type = "t2.medium"
   key_name      = aws_key_pair.demo.key_name
-  user_data     = data.template_file.f5_init.rendered
+  user_data     = templatefile("../templates/user_data_json.tpl", {
+    hostname        = "mybigip.f5.com",
+    admin_pass      = random_string.password.result,
+    external_ip     = "${aws_eip.public-self.private_ip}/24",
+    internal_ip     = "${aws_network_interface.private.private_ip}/24",
+    internal_gw     = cidrhost(module.vpc.private_subnets_cidr_blocks[0], 1)
+    vs1_ip          = aws_eip.public-vs1.private_ip,
+    consul_uri      = "http://${aws_instance.consul.private_ip}:8500/v1/catalog/service/nginx"
+  })
 
   network_interface {
     network_interface_id = aws_network_interface.mgmt.id
@@ -78,41 +86,30 @@ resource "aws_instance" "f5" {
   }
 }
 
-data "template_file" "do" {
-  template = file("../templates/do.tpl")
-}
 
-data "template_file" "as3" {
-  template = file("../templates/as3.tpl")
-}
+# data "template_file" "f5_init" {
+#   template = file("../templates/user_data_json.tpl")
 
-data "template_file" "f5_init" {
-  template = file("../templates/user_data_json.tpl")
+#   vars = {
+#     hostname        = "mybigip.f5.com",
+#     admin_pass      = random_string.password.result,
+#     external_ip     = "${aws_eip.public-self.private_ip}/24",
+#     internal_ip     = "${aws_network_interface.private.private_ip}/24",
+#     internal_gw     = cidrhost(module.vpc.private_subnets_cidr_blocks[0], 1)
+#     vs1_ip          = aws_eip.public-vs1.private_ip,
+#     consul_uri      = "http://${aws_instance.consul.private_ip}:8500/v1/catalog/service/nginx"
+#   }
+# }
 
-  vars = {
-    hostname        = "mybigip.f5.com",
-    admin_pass      = random_string.password.result,
-    external_ip     = "${aws_eip.public-self.private_ip}/24",
-    internal_ip     = "${aws_network_interface.private.private_ip}/24",
-    internal_gw     = cidrhost(module.vpc.private_subnets_cidr_blocks[0], 1),
-    vs1_ip          = aws_eip.public-vs1.private_ip,
-    consul_uri      = "http://${aws_instance.consul.private_ip}:8500/v1/catalog/service/nginx",
-    do_declaration  = data.template_file.do.rendered,
-    as3_declaration = data.template_file.as3.rendered
-  }
-}
-
-resource "local_file" "test_user_debug" {
-  content = templatefile("../templates/user_data_json.tpl", {
-    hostname        = "mybigip.f5.com",
-    admin_pass      = random_string.password.result,
-    external_ip     = "${aws_eip.public-self.private_ip}/24",
-    internal_ip     = "${aws_network_interface.private.private_ip}/24",
-    internal_gw     = cidrhost(module.vpc.private_subnets_cidr_blocks[0], 1),
-    vs1_ip          = aws_eip.public-vs1.private_ip,
-    consul_uri      = "http://${aws_instance.consul.private_ip}:8500/v1/catalog/service/nginx",
-    do_declaration  = data.template_file.do.rendered,
-    as3_declaration = data.template_file.as3.rendered
-  })
-  filename = "${path.module}/user_data_debug.json"
-}
+# resource "local_file" "test_user_debug" {
+#   content = templatefile("../templates/user_data_json.tpl", {
+#     hostname        = "mybigip.f5.com",
+#     admin_pass      = random_string.password.result,
+#     external_ip     = "${aws_eip.public-self.private_ip}/24",
+#     internal_ip     = "${aws_network_interface.private.private_ip}/24",
+#     internal_gw     = cidrhost(module.vpc.private_subnets_cidr_blocks[0], 1)
+#     vs1_ip          = aws_eip.public-vs1.private_ip,
+#     consul_uri      = "http://${aws_instance.consul.private_ip}:8500/v1/catalog/service/nginx"
+#   })
+#   filename = "${path.module}/user_data_debug.json"
+# }
