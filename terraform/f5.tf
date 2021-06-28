@@ -44,6 +44,12 @@ data "aws_ami" "f5_ami" {
   }
 }
 
+resource "random_string" "password" {
+  length  = 10
+  special = false
+}
+
+
 resource "aws_instance" "f5" {
 
   ami           = data.aws_ami.f5_ami.id

@@ -1,3 +1,6 @@
+data "http" "myip" {
+  url = "https://ifconfig.me"
+}
 
 resource "aws_security_group" "mgmt" {
   name        = "mgmt"
