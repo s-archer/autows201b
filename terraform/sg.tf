@@ -9,8 +9,7 @@ resource "aws_security_group" "mgmt" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
-    # cidr_blocks = data.http.myip.body = 90.255.235.127%   
+    cidr_blocks = ["${data.http.myip.body}/32"]
     #cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -19,7 +18,7 @@ resource "aws_security_group" "mgmt" {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["${chomp(data.http.myip.body)}/32"]
+    cidr_blocks = ["${data.http.myip.body}/32"]
     #cidr_blocks = ["0.0.0.0/0"]
   }
 
