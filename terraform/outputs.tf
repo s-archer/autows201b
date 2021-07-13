@@ -13,6 +13,9 @@ output "f5_ui" {
 output "f5_ssh" {
   value = "ssh admin@${aws_eip.mgmt.public_ip} -i ssh-key.pem"
 }
+output "f5_mgmt_ip" {
+  value = aws_eip.mgmt.public_ip
+}
 output "f5_vs1" {
   value = [aws_eip.public-vs1.private_ip, aws_eip.public-vs1.public_ip]
 }

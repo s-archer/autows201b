@@ -7,7 +7,7 @@
                         "schemaVersion": "3.22.0",
                         "label": "Sample 1",
                         "remark": "Simple HTTP Service with Round-Robin Load Balancing",
-                        "Sample_01": {
+                        "demo_tenant": {
                             "class": "Tenant",
                             "A1": {
                                 "class": "Application",

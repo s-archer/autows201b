@@ -9,7 +9,6 @@ terraform {
 
 # Configure the AWS Provider
 provider "aws" {
-  version                 = "~> 3.0"
   region                  = "eu-west-2"
   shared_credentials_file = "~/.aws/credentials"
   profile                 = "Default"

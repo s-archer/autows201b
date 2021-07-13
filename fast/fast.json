@@ -1,0 +1,14 @@
+{
+    "name": "examples/simple_http",
+    "parameters": {
+        "application_name": "App01",
+        "server_addresses": [
+            "10.2.1.201",
+            "10.2.1.202"
+        ],
+        "server_port": 80,
+        "tenant_name": "terraformFAST",
+        "virtual_address": "10.2.1.101",
+        "virtual_port": 80
+    }
+}
